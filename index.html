@@ -118,10 +118,9 @@ screen(`
 function salfok(){
 screen(`
 <h2>Sebelum mulai...</h2>
-<p>Kamu janji fokus nonton ya?</p>
-<p class="small">(bukan cuma liatin aku terus)</p>
-<button onclick="pickMovie()">Janji ngga salfok lagi dehh</button>
-<button onclick="pickMovie()">Ga janji 😌</button>
+<p>Abang janji ngga salfok lagi dehh</p>
+<button onclick="pickMovie()">Okeee :p</button>
+<button onclick="pickMovie()">Booong 😌</button>
 `)
 }
 
@@ -148,24 +147,9 @@ bg(movies[name].img)
 syncScene()
 }
 
-/* --- SYNC SCENE --- */
-function syncScene(){
-screen(`
-<h2>Okay important step</h2>
-<p>Kita harus pencet play bareng</p>
-<p class="small">biar LDR nya legal</p>
-<h1 id="count">3</h1>
-`)
-let n=3
-const timer=setInterval(()=>{
-n--
-document.getElementById("count").innerText=n
-if(n===0){clearInterval(timer);pickFood()}},900)
-}
-
 /* --- FOOD --- */
 function pickFood(){
-let html=`<h2>Important decision 🍜</h2><div class="grid">`
+let html=`<h2>Pizza lg juga okeee 🍜</h2><div class="grid">`
 for(const name in foods){
  html+=`<div class="choice" onclick="selectFood('${name}')">
  <img src="images/${foods[name]}">
@@ -180,16 +164,6 @@ function selectFood(name){
 food=name
 bg(foods[name])
 promiseScene()
-}
-
-/* --- PROMISE SCENE --- */
-function promiseScene(){
-screen(`
-<h2>Satu hal lagi</h2>
-<p>Kalo nanti aku diem...</p>
-<p class="small">itu bukan lag karena internet</p>
-<button onclick="final()">lanjut</button>
-`)
 }
 
 /* --- FINAL --- */
