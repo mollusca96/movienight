@@ -36,7 +36,12 @@ body::before{
     padding:28px;
     border-radius:22px;
     box-shadow:0 0 40px rgba(0,0,0,.6);
+    opacity:1;
+    transform:translateY(0);
+    transition:opacity .35s ease, transform .35s ease;
 }
+.card.fade-out{opacity:0; transform:translateY(10px)}
+.card.fade-in{opacity:1; transform:translateY(0)}
 
 h1,h2,h3,p{margin:.4em 0}
 
@@ -87,7 +92,16 @@ const app=document.getElementById("app")
 let movie="",food=""
 
 function bg(name){document.body.style.backgroundImage=`url(images/${name})`}
-function screen(html){app.innerHTML=html}
+
+function screen(html){
+  app.classList.add('fade-out')
+  setTimeout(()=>{
+    app.innerHTML=html
+    app.classList.remove('fade-out')
+    app.classList.add('fade-in')
+    setTimeout(()=>app.classList.remove('fade-in'),350)
+  },220)
+}
 
 /* --- DATA --- */
 const movies={
@@ -144,7 +158,7 @@ screen(html)
 function selectMovie(name){
 movie=name
 bg(movies[name].img)
-syncScene()
+pickFood()
 }
 
 /* --- FOOD --- */
@@ -163,7 +177,7 @@ screen(html)
 function selectFood(name){
 food=name
 bg(foods[name])
-promiseScene()
+final()
 }
 
 /* --- FINAL --- */
