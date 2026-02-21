@@ -76,7 +76,7 @@ button:hover{background:#ff5c87}
 }
 
 .small{opacity:.75;font-size:14px}
-textarea{width:100%;height:100px;margin-top:10px;border-radius:12px;padding:10px}
+textarea{width:100%;height:110px;margin-top:10px;border-radius:12px;padding:10px}
 </style>
 </head>
 <body>
@@ -91,31 +91,11 @@ function screen(html){app.innerHTML=html}
 
 /* --- DATA --- */
 const movies={
-"Your Name":{
- img:"Your_Name_poster.png",
- desc:"Two strangers begin swapping lives across distance and time.",
- rating:"⭐ 8.4/10"
-},
-"Forgotten":{
- img:"Forgotten.jpg",
- desc:"A man investigates his brother after a suspicious disappearance.",
- rating:"⭐ 7.4/10"
-},
-"Enola Holmes":{
- img:"Enola_Holmes_poster.jpeg",
- desc:"Sherlock's younger sister solves mysteries her own way.",
- rating:"⭐ 6.6/10"
-},
-"Wake Up Dead Man":{
- img:"WakeUpDeadMan_poster.jpg",
- desc:"Benoit Blanc returns for another eccentric murder case.",
- rating:"⭐ upcoming chaos"
-},
-"The Thursday Murder Club":{
- img:"The_Thursday_Murder_Club_(film).jpg",
- desc:"Retirees solving crimes because they’re bored and brilliant.",
- rating:"⭐ cozy mystery vibes"
-}
+"Your Name":{ img:"Your_Name_poster.png", desc:"Two strangers begin swapping lives across distance and time.", rating:"⭐ 8.4/10"},
+"Forgotten":{ img:"Forgotten.jpg", desc:"A man investigates his brother after a suspicious disappearance.", rating:"⭐ 7.4/10"},
+"Enola Holmes":{ img:"Enola_Holmes_poster.jpeg", desc:"Sherlock's younger sister solves mysteries her own way.", rating:"⭐ 6.6/10"},
+"Wake Up Dead Man":{ img:"WakeUpDeadMan_poster.jpg", desc:"Benoit Blanc returns for another eccentric murder case.", rating:"⭐ upcoming chaos"},
+"The Thursday Murder Club":{ img:"The_Thursday_Murder_Club_(film).jpg", desc:"Retirees solving crimes because they’re bored and brilliant.", rating:"⭐ cozy mystery vibes"}
 }
 
 const foods={
@@ -131,8 +111,19 @@ bg("cover.png")
 screen(`
 <h1>Haloo haciannn xixixi :)</h1>
 <p>Will you join me for a movie night?</p>
-<button onclick="pickMovie()">okay</button>
+<button onclick="salfok()">okay</button>
 `)
+
+/* --- SALFOK SCENE --- */
+function salfok(){
+screen(`
+<h2>Sebelum mulai...</h2>
+<p>Kamu janji fokus nonton ya?</p>
+<p class="small">(bukan cuma liatin aku terus)</p>
+<button onclick="pickMovie()">Janji ngga salfok lagi dehh</button>
+<button onclick="pickMovie()">Ga janji 😌</button>
+`)
+}
 
 /* --- MOVIES --- */
 function pickMovie(){
@@ -140,8 +131,7 @@ bg("Your_Name_poster.png")
 let html=`<h2>Pick our movie 🎬</h2><div class="grid">`
 for(const name in movies){
  const m=movies[name]
- html+=`
- <div class="choice" onclick="selectMovie('${name}')">
+ html+=`<div class="choice" onclick="selectMovie('${name}')">
  <img src="images/${m.img}">
  <h3>${name}</h3>
  <div class="small">${m.desc}</div>
@@ -155,15 +145,29 @@ screen(html)
 function selectMovie(name){
 movie=name
 bg(movies[name].img)
-pickFood()
+syncScene()
+}
+
+/* --- SYNC SCENE --- */
+function syncScene(){
+screen(`
+<h2>Okay important step</h2>
+<p>Kita harus pencet play bareng</p>
+<p class="small">biar LDR nya legal</p>
+<h1 id="count">3</h1>
+`)
+let n=3
+const timer=setInterval(()=>{
+n--
+document.getElementById("count").innerText=n
+if(n===0){clearInterval(timer);pickFood()}},900)
 }
 
 /* --- FOOD --- */
 function pickFood(){
 let html=`<h2>Important decision 🍜</h2><div class="grid">`
 for(const name in foods){
- html+=`
- <div class="choice" onclick="selectFood('${name}')">
+ html+=`<div class="choice" onclick="selectFood('${name}')">
  <img src="images/${foods[name]}">
  <h3>${name}</h3>
  </div>`
@@ -175,7 +179,17 @@ screen(html)
 function selectFood(name){
 food=name
 bg(foods[name])
-final()
+promiseScene()
+}
+
+/* --- PROMISE SCENE --- */
+function promiseScene(){
+screen(`
+<h2>Satu hal lagi</h2>
+<p>Kalo nanti aku diem...</p>
+<p class="small">itu bukan lag karena internet</p>
+<button onclick="final()">lanjut</button>
+`)
 }
 
 /* --- FINAL --- */
@@ -186,11 +200,16 @@ screen(`
 <h2>${movie}</h2>
 <p>with</p>
 <h2>${food}</h2>
-<p class="small">Send me this: </p>
-<textarea id="msg">
+<p class="small">Send me this:</p>
+<textarea id="msg">Movie night confirmed.
+
 Movie: ${movie}
 Food: ${food}
-</textarea>
+
+Please prepare:
+- stable internet
+- comfy position
+- my attention</textarea>
 <button onclick="copy()">copy message</button>
 `)
 }
